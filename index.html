@@ -368,6 +368,32 @@ section {
   color: var(--text-secondary);
 }
 
+/* ========== Promo Video ========== */
+.video-section {
+  background: var(--bg);
+  padding: 48px 0 64px;
+}
+
+.video-wrapper {
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: #000;
+}
+
+.video-wrapper video {
+  width: 100%;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .video-wrapper {
+    max-width: 420px;
+  }
+}
+
 /* ========== Pain Points ========== */
 .pain-points {
   background: var(--bg-warm);
@@ -910,6 +936,17 @@ section {
   </div>
 </section>
 
+<!-- ===== Promo Video ===== -->
+<section class="video-section">
+  <div class="container">
+    <h2 class="section-title fade-in" data-i18n="video.title">30秒でわかるNinka</h2>
+    <p class="section-subtitle fade-in" data-i18n="video.subtitle">チャット感覚でSSH操作、ワンタップで承認。</p>
+    <div class="video-wrapper fade-in">
+      <video id="promo-video" src="assets/promo-ja.mp4" autoplay muted loop playsinline></video>
+    </div>
+  </div>
+</section>
+
 <!-- ===== Pain Points ===== -->
 <section class="pain-points">
   <div class="container">
@@ -1216,6 +1253,8 @@ var i18n = {
     'chat.badge': 'Awaiting Approval',
     'chat.approve': 'Approve',
     'chat.reject': 'Reject',
+    'video.title': 'Ninka in 30 Seconds',
+    'video.subtitle': 'SSH via chat, one-tap approvals.',
     'pain.title': 'Sound familiar?',
     'pain.subtitle': 'Waiting for Claude Code approvals is more stressful than you think.',
     'pain.1': '<strong>You left Claude Code running and stepped away.</strong><br>Came back to find it stuck waiting for approval.',
@@ -1324,6 +1363,8 @@ function setLang(lang) {
   }
   document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  var vid = document.getElementById('promo-video');
+  if (vid) { vid.src = lang === 'en' ? 'assets/promo-en.mp4' : 'assets/promo-ja.mp4'; vid.load(); }
   try { localStorage.setItem('ninka-lang', lang); } catch(e) {}
 }
 
