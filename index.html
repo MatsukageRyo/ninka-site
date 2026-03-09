@@ -14,19 +14,26 @@
 }
 
 :root {
-  --bg: #0a0a0c;
-  --surface: #141418;
-  --border: #2a2a35;
-  --text-primary: #e8e8ed;
-  --text-secondary: #8888a0;
-  --text-muted: #55556a;
-  --accent: #5b8af5;
-  --accent-glow: rgba(91, 138, 245, 0.15);
-  --approve: #34c759;
-  --approve-glow: rgba(52, 199, 89, 0.2);
-  --reject: #ff453a;
-  --reject-glow: rgba(255, 69, 58, 0.15);
-  --approval-badge: #ffd60a;
+  --bg: #ffffff;
+  --bg-warm: #FFF8F0;
+  --surface: #F5F6F8;
+  --surface-green: rgba(6, 199, 85, 0.06);
+  --border: #E8ECF0;
+  --text-primary: #1A1A2E;
+  --text-secondary: #5A5A7A;
+  --text-muted: #9A9AB8;
+  --accent: #06C755;
+  --accent-hover: #05B34C;
+  --accent-glow: rgba(6, 199, 85, 0.12);
+  --accent-blue: #4A90D9;
+  --approve: #06C755;
+  --approve-glow: rgba(6, 199, 85, 0.15);
+  --reject: #FF3B30;
+  --reject-glow: rgba(255, 59, 48, 0.1);
+  --approval-badge: #FFB800;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.1);
 }
 
 html {
@@ -34,12 +41,11 @@ html {
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg);
   color: var(--text-primary);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
@@ -51,20 +57,20 @@ body {
 }
 
 section {
-  padding: 80px 0;
+  padding: 72px 0;
 }
 
 @media (min-width: 768px) {
   section {
-    padding: 120px 0;
+    padding: 100px 0;
   }
 }
 
 .section-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 16px;
   color: var(--text-primary);
 }
 
@@ -74,11 +80,18 @@ section {
   }
 }
 
+.section-subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 48px;
+}
+
 /* Fade-in animation */
 .fade-in {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .fade-in.visible {
@@ -97,17 +110,29 @@ section {
   padding: 80px 24px 60px;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(160deg, #F0FFF4 0%, #FFFFFF 40%, #FFF8F0 100%);
 }
 
 .hero::before {
   content: '';
   position: absolute;
-  top: -40%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(91, 138, 245, 0.08) 0%, transparent 70%);
+  top: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(6, 199, 85, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(74, 144, 217, 0.06) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -118,48 +143,49 @@ section {
 }
 
 .hero-icon {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 32px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 22px;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  border-radius: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 40px rgba(91, 138, 245, 0.1);
+  box-shadow: 0 4px 24px rgba(6, 199, 85, 0.15);
 }
 
 .hero-icon svg {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
 }
 
 .hero h1 {
   font-size: 2rem;
-  font-weight: 800;
-  line-height: 1.3;
+  font-weight: 900;
+  line-height: 1.4;
   margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
 }
 
 @media (min-width: 768px) {
   .hero h1 {
-    font-size: 3.2rem;
+    font-size: 3rem;
   }
 }
 
 .hero .subtitle {
   font-size: 1.05rem;
   color: var(--text-secondary);
-  max-width: 480px;
-  margin: 0 auto 40px;
-  line-height: 1.8;
+  max-width: 460px;
+  margin: 0 auto 36px;
+  line-height: 1.9;
 }
 
 @media (min-width: 768px) {
   .hero .subtitle {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 }
 
@@ -170,18 +196,18 @@ section {
   background: var(--accent);
   color: #fff;
   font-size: 1rem;
-  font-weight: 600;
-  padding: 14px 32px;
-  border-radius: 12px;
+  font-weight: 700;
+  padding: 16px 36px;
+  border-radius: 50px;
   text-decoration: none;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 24px rgba(91, 138, 245, 0.3);
+  box-shadow: 0 4px 20px rgba(6, 199, 85, 0.3);
 }
 
 .cta-button:hover {
-  background: #4a7ae4;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 32px rgba(91, 138, 245, 0.4);
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(6, 199, 85, 0.4);
 }
 
 .cta-button:active {
@@ -193,11 +219,122 @@ section {
   height: 20px;
 }
 
+/* ========== Chat Demo ========== */
+.chat-demo {
+  max-width: 320px;
+  margin: 44px auto 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.chat-status-dot {
+  width: 8px;
+  height: 8px;
+  background: #A8F0C6;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(168, 240, 198, 0.6);
+}
+
+.chat-header-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.chat-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 180px;
+  background: #F7F8FA;
+}
+
+.chat-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  word-break: break-all;
+}
+
+.chat-bubble--output {
+  background: #fff;
+  border: 1px solid var(--border);
+  align-self: flex-start;
+  color: var(--text-secondary);
+  border-radius: 18px 18px 18px 4px;
+}
+
+.chat-bubble--approval {
+  background: #FFF9E6;
+  border: 1px solid #FFE082;
+  align-self: flex-start;
+  color: var(--text-primary);
+  border-radius: 18px 18px 18px 4px;
+}
+
+.chat-bubble--input {
+  background: var(--accent);
+  color: #fff;
+  align-self: flex-end;
+  border-radius: 18px 18px 4px 18px;
+}
+
+.approval-label {
+  display: inline-block;
+  background: var(--approval-badge);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+
+.approval-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-approve, .btn-reject {
+  padding: 7px 20px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: default;
+  font-family: inherit;
+}
+
+.btn-approve {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-reject {
+  background: #F0F0F5;
+  color: var(--text-secondary);
+}
+
 /* ========== Pain Points ========== */
 .pain-points {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: var(--bg-warm);
 }
 
 .pain-list {
@@ -206,29 +343,36 @@ section {
   margin: 0 auto 40px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 
 .pain-item {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  padding: 16px 20px;
-  background: var(--bg);
+  padding: 18px 20px;
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pain-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .pain-icon {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  background: var(--surface);
-  border-radius: 10px;
+  font-size: 1.5rem;
+  background: #FFF0F0;
+  border-radius: 12px;
 }
 
 .pain-text {
@@ -244,16 +388,25 @@ section {
 .pain-solution {
   text-align: center;
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
-  line-height: 1.7;
+  line-height: 1.8;
+  padding: 24px;
+  background: var(--surface-green);
+  border-radius: 16px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 /* ========== Steps ========== */
+.steps-section {
+  background: var(--bg);
+}
+
 .steps-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
   max-width: 720px;
   margin: 0 auto;
 }
@@ -261,17 +414,24 @@ section {
 @media (min-width: 768px) {
   .steps-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 24px;
   }
 }
 
 .step-card {
   text-align: center;
   padding: 32px 24px;
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 20px;
   position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
 .step-number {
@@ -283,9 +443,10 @@ section {
   background: var(--accent);
   color: #fff;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 800;
   border-radius: 50%;
   margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(6, 199, 85, 0.25);
 }
 
 .step-card h3 {
@@ -315,18 +476,24 @@ section {
     content: '';
     position: absolute;
     top: 50%;
-    right: -18px;
-    width: 12px;
-    height: 2px;
-    background: var(--border);
+    right: -14px;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 8px solid var(--accent);
   }
 }
 
 /* ========== Features ========== */
+.features-section {
+  background: var(--surface);
+}
+
 .features-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 16px;
 }
 
 @media (min-width: 600px) {
@@ -337,25 +504,27 @@ section {
 
 .feature-card {
   padding: 28px 24px;
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .feature-card:hover {
+  transform: translateY(-3px);
   border-color: var(--accent);
-  box-shadow: 0 0 24px var(--accent-glow);
+  box-shadow: 0 4px 24px rgba(6, 199, 85, 0.12);
 }
 
 .feature-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--accent-glow);
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 16px;
 }
 
@@ -365,12 +534,12 @@ section {
   color: var(--accent);
 }
 
-.feature-icon--approve {
-  background: var(--approve-glow);
+.feature-icon--blue {
+  background: rgba(74, 144, 217, 0.1);
 }
 
-.feature-icon--approve svg {
-  color: var(--approve);
+.feature-icon--blue svg {
+  color: var(--accent-blue);
 }
 
 .feature-card h3 {
@@ -382,21 +551,19 @@ section {
 .feature-card p {
   font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* ========== Compatible Tools ========== */
 .tools-section {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: var(--bg);
 }
 
 .tools-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   max-width: 640px;
   margin: 0 auto 24px;
 }
@@ -406,17 +573,19 @@ section {
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: var(--bg);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 100px;
+  border-radius: 50px;
   font-size: 0.9rem;
   color: var(--text-primary);
   font-weight: 500;
-  transition: border-color 0.2s;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, transform 0.2s;
 }
 
 .tool-tag:hover {
   border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .tools-note {
@@ -426,10 +595,14 @@ section {
 }
 
 /* ========== Pricing ========== */
+.pricing-section {
+  background: var(--bg-warm);
+}
+
 .pricing-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 20px;
   max-width: 640px;
   margin: 0 auto;
 }
@@ -442,15 +615,17 @@ section {
 
 .pricing-card {
   padding: 32px 28px;
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 20px;
   position: relative;
+  box-shadow: var(--shadow-sm);
 }
 
 .pricing-card--pro {
   border-color: var(--accent);
-  box-shadow: 0 0 32px var(--accent-glow);
+  border-width: 2px;
+  box-shadow: 0 4px 24px rgba(6, 199, 85, 0.12);
 }
 
 .pricing-badge {
@@ -462,9 +637,10 @@ section {
   color: #fff;
   font-size: 0.75rem;
   font-weight: 700;
-  padding: 4px 16px;
-  border-radius: 100px;
+  padding: 4px 18px;
+  border-radius: 50px;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(6, 199, 85, 0.25);
 }
 
 .pricing-card h3 {
@@ -477,12 +653,13 @@ section {
   font-size: 1.8rem;
   font-weight: 800;
   margin-bottom: 4px;
+  color: var(--text-primary);
 }
 
 .pricing-price span {
   font-size: 0.85rem;
   font-weight: 400;
-  color: var(--text-secondary);
+  color: var(--text-muted);
 }
 
 .pricing-desc {
@@ -510,7 +687,7 @@ section {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
-  color: var(--approve);
+  color: var(--accent);
 }
 
 .pricing-features li.disabled {
@@ -518,10 +695,14 @@ section {
 }
 
 .pricing-features li.disabled svg {
-  color: var(--text-muted);
+  color: #D0D0D8;
 }
 
 /* ========== FAQ ========== */
+.faq-section {
+  background: var(--bg);
+}
+
 .faq-list {
   max-width: 640px;
   margin: 0 auto;
@@ -531,10 +712,11 @@ section {
 }
 
 .faq-item {
-  background: var(--surface);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .faq-question {
@@ -553,6 +735,7 @@ section {
   gap: 16px;
   font-family: inherit;
   line-height: 1.5;
+  transition: color 0.2s;
 }
 
 .faq-question:hover {
@@ -564,11 +747,12 @@ section {
   width: 20px;
   height: 20px;
   color: var(--text-muted);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.2s;
 }
 
 .faq-item.open .faq-chevron {
   transform: rotate(180deg);
+  color: var(--accent);
 }
 
 .faq-answer {
@@ -587,14 +771,13 @@ section {
 /* ========== Footer CTA ========== */
 .footer-cta {
   text-align: center;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
+  background: linear-gradient(160deg, #F0FFF4 0%, #FFF8F0 100%);
   padding: 80px 24px;
 }
 
 .footer-cta h2 {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 12px;
 }
 
@@ -615,6 +798,7 @@ section {
   padding: 32px 24px;
   text-align: center;
   border-top: 1px solid var(--border);
+  background: var(--bg);
 }
 
 .footer-links {
@@ -633,121 +817,12 @@ section {
 }
 
 .footer-links a:hover {
-  color: var(--text-secondary);
+  color: var(--accent);
 }
 
 .footer-copyright {
   font-size: 0.8rem;
   color: var(--text-muted);
-}
-
-/* ========== Chat Demo ========== */
-.chat-demo {
-  max-width: 340px;
-  margin: 40px auto 0;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4);
-}
-
-.chat-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 18px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-
-.chat-status-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--approve);
-  border-radius: 50%;
-  box-shadow: 0 0 6px var(--approve-glow);
-}
-
-.chat-header-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.chat-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 180px;
-}
-
-.chat-bubble {
-  max-width: 85%;
-  padding: 10px 14px;
-  border-radius: 14px;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
-  word-break: break-all;
-}
-
-.chat-bubble--output {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  align-self: flex-start;
-  color: var(--text-secondary);
-}
-
-.chat-bubble--approval {
-  background: rgba(255, 214, 10, 0.05);
-  border: 1px solid rgba(255, 214, 10, 0.2);
-  align-self: flex-start;
-  color: var(--text-primary);
-}
-
-.chat-bubble--input {
-  background: var(--accent);
-  color: #fff;
-  align-self: flex-end;
-}
-
-.approval-label {
-  display: inline-block;
-  background: var(--approval-badge);
-  color: var(--bg);
-  font-size: 0.65rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 4px;
-  margin-bottom: 6px;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.approval-buttons {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.btn-approve, .btn-reject {
-  padding: 6px 18px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: default;
-  font-family: system-ui, -apple-system, sans-serif;
-}
-
-.btn-approve {
-  background: var(--approve);
-  color: #fff;
-}
-
-.btn-reject {
-  background: var(--reject);
-  color: #fff;
 }
 </style>
 </head>
@@ -757,12 +832,11 @@ section {
 <section class="hero">
   <div class="hero-content fade-in">
     <div class="hero-icon">
-      <!-- App icon: chat bubble with >_ y -->
       <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="8" width="48" height="34" rx="8" fill="#141418" stroke="#5b8af5" stroke-width="1.5"/>
-        <polygon points="14,42 22,42 14,50" fill="#141418" stroke="#5b8af5" stroke-width="1.5" stroke-linejoin="round"/>
-        <text x="12" y="30" font-family="SF Mono, Menlo, monospace" font-size="13" fill="#55556a">&gt;_</text>
-        <text x="33" y="30" font-family="SF Mono, Menlo, monospace" font-size="14" font-weight="bold" fill="#34c759">y</text>
+        <rect x="4" y="8" width="48" height="34" rx="8" fill="#F0FFF4" stroke="#06C755" stroke-width="1.5"/>
+        <polygon points="14,42 22,42 14,50" fill="#F0FFF4" stroke="#06C755" stroke-width="1.5" stroke-linejoin="round"/>
+        <text x="12" y="30" font-family="SF Mono, Menlo, monospace" font-size="13" fill="#9A9AB8">&gt;_</text>
+        <text x="33" y="30" font-family="SF Mono, Menlo, monospace" font-size="14" font-weight="bold" fill="#06C755">y</text>
       </svg>
     </div>
     <h1>ソファから、<br>Claude Codeを承認。</h1>
@@ -798,22 +872,23 @@ section {
 <section class="pain-points">
   <div class="container">
     <h2 class="section-title fade-in">こんな経験、ありませんか？</h2>
+    <p class="section-subtitle fade-in">Claude Codeの承認待ち、実はけっこうストレス。</p>
     <ul class="pain-list fade-in">
       <li class="pain-item">
         <div class="pain-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8888a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         </div>
         <p class="pain-text"><strong>Claude Codeを走らせて離席。</strong><br>戻ってみたら承認待ちで止まっていた。</p>
       </li>
       <li class="pain-item">
         <div class="pain-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8888a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
         </div>
         <p class="pain-text"><strong>iPhoneに通知は来ない。</strong><br>承認待ちに気づくのは、PCに戻ったとき。</p>
       </li>
       <li class="pain-item">
         <div class="pain-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8888a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
         </div>
         <p class="pain-text"><strong>PCに戻って「y」を打つだけで5分ロス。</strong><br>たった1文字のために作業が止まる。</p>
       </li>
@@ -825,42 +900,40 @@ section {
 </section>
 
 <!-- ===== 3 Steps ===== -->
-<section>
+<section class="steps-section">
   <div class="container">
     <h2 class="section-title fade-in">3ステップで、今日から使える。</h2>
+    <p class="section-subtitle fade-in">むずかしい設定は不要。すぐに始められます。</p>
     <div class="steps-grid fade-in">
-      <!-- Step 1 -->
       <div class="step-card">
         <div class="step-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="18" stroke="#5b8af5" stroke-width="2" fill="none"/>
-            <path d="M18 24h12M24 18v12" stroke="#5b8af5" stroke-width="2" stroke-linecap="round"/>
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="18" stroke="#06C755" stroke-width="2" fill="none"/>
+            <path d="M18 24h12M24 18v12" stroke="#06C755" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
         <span class="step-number">1</span>
         <h3>Tailscaleを入れる</h3>
         <p>PCとiPhoneにTailscaleをインストール。ルーターの設定変更は不要です。</p>
       </div>
-      <!-- Step 2 -->
       <div class="step-card">
         <div class="step-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="10" y="12" width="28" height="24" rx="4" stroke="#5b8af5" stroke-width="2" fill="none"/>
-            <path d="M18 24l4 4 8-8" stroke="#34c759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="12" width="28" height="24" rx="4" stroke="#06C755" stroke-width="2" fill="none"/>
+            <path d="M18 24l4 4 8-8" stroke="#06C755" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <span class="step-number">2</span>
         <h3>Ninkaで接続先を登録</h3>
         <p>TailscaleのIPアドレスを入力するだけ。SSH鍵にもパスワードにも対応。</p>
       </div>
-      <!-- Step 3 -->
       <div class="step-card">
         <div class="step-icon">
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="10" width="32" height="24" rx="4" stroke="#5b8af5" stroke-width="2" fill="none"/>
-            <text x="15" y="26" font-family="monospace" font-size="11" fill="#55556a">&gt;_</text>
-            <text x="30" y="26" font-family="monospace" font-size="12" font-weight="bold" fill="#34c759">y</text>
-            <polygon points="14,34 22,34 14,40" fill="none" stroke="#5b8af5" stroke-width="1.5"/>
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="10" width="32" height="24" rx="4" stroke="#06C755" stroke-width="2" fill="none"/>
+            <text x="15" y="26" font-family="monospace" font-size="11" fill="#9A9AB8">&gt;_</text>
+            <text x="30" y="26" font-family="monospace" font-size="12" font-weight="bold" fill="#06C755">y</text>
+            <polygon points="14,34 22,34 14,40" fill="none" stroke="#06C755" stroke-width="1.5"/>
           </svg>
         </div>
         <span class="step-number">3</span>
@@ -872,37 +945,34 @@ section {
 </section>
 
 <!-- ===== Features ===== -->
-<section>
+<section class="features-section">
   <div class="container">
     <h2 class="section-title fade-in">主な機能</h2>
+    <p class="section-subtitle fade-in">シンプルだけど、必要なものは全部入り。</p>
     <div class="features-grid fade-in">
-      <!-- Chat UI -->
       <div class="feature-card">
-        <div class="feature-icon">
+        <div class="feature-icon feature-icon--blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         </div>
         <h3>チャット風UI</h3>
         <p>ターミナル出力をLINEのようなチャットバブルで表示。サーバーの応答が見やすく、直感的に操作できます。</p>
       </div>
-      <!-- Auto Detection -->
       <div class="feature-card">
-        <div class="feature-icon feature-icon--approve">
+        <div class="feature-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
         <h3>承認パターン自動検出</h3>
         <p>(y/n)、(Y/n)、(y/n/a)、Allow? などの承認プロンプトを自動で検出し、大きな承認ボタンを表示します。</p>
       </div>
-      <!-- One Tap -->
       <div class="feature-card">
-        <div class="feature-icon feature-icon--approve">
+        <div class="feature-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9,12 11,14 15,10"/></svg>
         </div>
         <h3>ワンタップ操作</h3>
         <p>承認(y)、拒否(n)、すべて許可(a)、中断(Ctrl+C)をワンタップで送信。キーボード入力は不要です。</p>
       </div>
-      <!-- tmux -->
       <div class="feature-card">
-        <div class="feature-icon">
+        <div class="feature-icon feature-icon--blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="3" x2="12" y2="12"/></svg>
         </div>
         <h3>tmuxセッション対応</h3>
@@ -916,6 +986,7 @@ section {
 <section class="tools-section">
   <div class="container">
     <h2 class="section-title fade-in">対応するAIエージェント</h2>
+    <p class="section-subtitle fade-in">特定のツールに依存しない、汎用的な仕組み。</p>
     <div class="tools-list fade-in">
       <span class="tool-tag">Claude Code</span>
       <span class="tool-tag">Aider</span>
@@ -929,11 +1000,11 @@ section {
 </section>
 
 <!-- ===== Pricing ===== -->
-<section>
+<section class="pricing-section">
   <div class="container">
     <h2 class="section-title fade-in">料金プラン</h2>
+    <p class="section-subtitle fade-in">サブスク不要。買い切りで安心。</p>
     <div class="pricing-grid fade-in">
-      <!-- Free -->
       <div class="pricing-card">
         <h3>無料版</h3>
         <p class="pricing-price">&#165;0</p>
@@ -977,7 +1048,6 @@ section {
           </li>
         </ul>
       </div>
-      <!-- Pro -->
       <div class="pricing-card pricing-card--pro">
         <span class="pricing-badge">おすすめ</span>
         <h3>Pro</h3>
@@ -1011,9 +1081,10 @@ section {
 </section>
 
 <!-- ===== FAQ ===== -->
-<section>
+<section class="faq-section">
   <div class="container">
     <h2 class="section-title fade-in">よくある質問</h2>
+    <p class="section-subtitle fade-in">気になることがあればこちらから。</p>
     <div class="faq-list fade-in">
 
       <div class="faq-item">
@@ -1109,10 +1180,8 @@ section {
     }
   }
 
-  // Initial check
   checkVisibility();
 
-  // Throttled scroll handler
   var ticking = false;
   window.addEventListener('scroll', function() {
     if (!ticking) {
@@ -1135,14 +1204,12 @@ section {
       btn.addEventListener('click', function() {
         var isOpen = item.classList.contains('open');
 
-        // Close all
         for (var j = 0; j < items.length; j++) {
           items[j].classList.remove('open');
           items[j].querySelector('.faq-question').setAttribute('aria-expanded', 'false');
           items[j].querySelector('.faq-answer').style.maxHeight = null;
         }
 
-        // Toggle current
         if (!isOpen) {
           item.classList.add('open');
           btn.setAttribute('aria-expanded', 'true');
