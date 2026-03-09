@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ninka - ソファから、Claude Codeを承認。</title>
+<meta name="description" content="Tailscale × iPhone で、AIエージェントの承認待ちをワンタップ解消。Claude Code対応のチャット風SSHクライアント。">
+<style>
+/* ========== Reset & Base ========== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a0c;
+  --surface: #141418;
+  --border: #2a2a35;
+  --text-primary: #e8e8ed;
+  --text-secondary: #8888a0;
+  --text-muted: #55556a;
+  --accent: #5b8af5;
+  --accent-glow: rgba(91, 138, 245, 0.15);
+  --approve: #34c759;
+  --approve-glow: rgba(52, 199, 89, 0.2);
+  --reject: #ff453a;
+  --reject-glow: rgba(255, 69, 58, 0.15);
+  --approval-badge: #ffd60a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ========== Utilities ========== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: 80px 0;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 120px 0;
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 48px;
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== Hero ========== */
+.hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(91, 138, 245, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-icon {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(91, 138, 245, 0.1);
+}
+
+.hero-icon svg {
+  width: 56px;
+  height: 56px;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 3.2rem;
+  }
+}
+
+.hero .subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
+}
+
+@media (min-width: 768px) {
+  .hero .subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 24px rgba(91, 138, 245, 0.3);
+}
+
+.cta-button:hover {
+  background: #4a7ae4;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 32px rgba(91, 138, 245, 0.4);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+.cta-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ========== Pain Points ========== */
+.pain-points {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.pain-list {
+  list-style: none;
+  max-width: 560px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pain-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.pain-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  background: var(--surface);
+  border-radius: 10px;
+}
+
+.pain-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.pain-text strong {
+  color: var(--text-primary);
+}
+
+.pain-solution {
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--accent);
+  line-height: 1.7;
+}
+
+/* ========== Steps ========== */
+.steps-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .steps-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+}
+
+.step-card {
+  text-align: center;
+  padding: 32px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  position: relative;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+
+.step-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.step-icon {
+  margin-bottom: 12px;
+}
+
+.step-icon svg {
+  width: 48px;
+  height: 48px;
+}
+
+/* Step connectors (desktop only) */
+@media (min-width: 768px) {
+  .step-card:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -18px;
+    width: 12px;
+    height: 2px;
+    background: var(--border);
+  }
+}
+
+/* ========== Features ========== */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 600px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.feature-card {
+  padding: 28px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-glow);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.feature-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+}
+
+.feature-icon--approve {
+  background: var(--approve-glow);
+}
+
+.feature-icon--approve svg {
+  color: var(--approve);
+}
+
+.feature-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ========== Compatible Tools ========== */
+.tools-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.tools-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto 24px;
+}
+
+.tool-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: border-color 0.2s;
+}
+
+.tool-tag:hover {
+  border-color: var(--accent);
+}
+
+.tools-note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ========== Pricing ========== */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pricing-card {
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  position: relative;
+}
+
+.pricing-card--pro {
+  border-color: var(--accent);
+  box-shadow: 0 0 32px var(--accent-glow);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.pricing-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pricing-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.pricing-price span {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.pricing-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.pricing-features li svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--approve);
+}
+
+.pricing-features li.disabled {
+  color: var(--text-muted);
+}
+
+.pricing-features li.disabled svg {
+  color: var(--text-muted);
+}
+
+/* ========== FAQ ========== */
+.faq-list {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 18px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.faq-question:hover {
+  color: var(--accent);
+}
+
+.faq-chevron {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer-inner {
+  padding: 0 24px 18px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ========== Footer CTA ========== */
+.footer-cta {
+  text-align: center;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 80px 24px;
+}
+
+.footer-cta h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 768px) {
+  .footer-cta h2 {
+    font-size: 2rem;
+  }
+}
+
+.footer-cta p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  font-size: 1rem;
+}
+
+/* ========== Footer ========== */
+.footer {
+  padding: 32px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--text-secondary);
+}
+
+.footer-copyright {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ========== Chat Demo ========== */
+.chat-demo {
+  max-width: 340px;
+  margin: 40px auto 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.4);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.chat-status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--approve);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--approve-glow);
+}
+
+.chat-header-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chat-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 180px;
+}
+
+.chat-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+  word-break: break-all;
+}
+
+.chat-bubble--output {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  align-self: flex-start;
+  color: var(--text-secondary);
+}
+
+.chat-bubble--approval {
+  background: rgba(255, 214, 10, 0.05);
+  border: 1px solid rgba(255, 214, 10, 0.2);
+  align-self: flex-start;
+  color: var(--text-primary);
+}
+
+.chat-bubble--input {
+  background: var(--accent);
+  color: #fff;
+  align-self: flex-end;
+}
+
+.approval-label {
+  display: inline-block;
+  background: var(--approval-badge);
+  color: var(--bg);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.approval-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn-approve, .btn-reject {
+  padding: 6px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: default;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.btn-approve {
+  background: var(--approve);
+  color: #fff;
+}
+
+.btn-reject {
+  background: var(--reject);
+  color: #fff;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <div class="hero-content fade-in">
+    <div class="hero-icon">
+      <!-- App icon: chat bubble with >_ y -->
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="8" width="48" height="34" rx="8" fill="#141418" stroke="#5b8af5" stroke-width="1.5"/>
+        <polygon points="14,42 22,42 14,50" fill="#141418" stroke="#5b8af5" stroke-width="1.5" stroke-linejoin="round"/>
+        <text x="12" y="30" font-family="SF Mono, Menlo, monospace" font-size="13" fill="#55556a">&gt;_</text>
+        <text x="33" y="30" font-family="SF Mono, Menlo, monospace" font-size="14" font-weight="bold" fill="#34c759">y</text>
+      </svg>
+    </div>
+    <h1>ソファから、<br>Claude Codeを承認。</h1>
+    <p class="subtitle">Tailscale × iPhone で、<br>AIエージェントの承認待ちをワンタップ解消。</p>
+    <a href="#" class="cta-button" aria-label="App Storeでダウンロード">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm-.5 14.5l-4-4 1.41-1.41L9.5 11.67l5.09-5.09L16 8l-6.5 6.5z"/></svg>
+      App Store でダウンロード
+    </a>
+
+    <!-- Chat Demo -->
+    <div class="chat-demo">
+      <div class="chat-header">
+        <span class="chat-status-dot"></span>
+        <span class="chat-header-name">dev-macbook (Tailscale)</span>
+      </div>
+      <div class="chat-body">
+        <div class="chat-bubble chat-bubble--output">Claude wants to edit<br>src/App.tsx</div>
+        <div class="chat-bubble chat-bubble--approval">
+          <span class="approval-label">承認待ち</span>
+          <div>Allow this edit? (y/n)</div>
+          <div class="approval-buttons">
+            <span class="btn-approve">承認</span>
+            <span class="btn-reject">拒否</span>
+          </div>
+        </div>
+        <div class="chat-bubble chat-bubble--input">y</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Pain Points ===== -->
+<section class="pain-points">
+  <div class="container">
+    <h2 class="section-title fade-in">こんな経験、ありませんか？</h2>
+    <ul class="pain-list fade-in">
+      <li class="pain-item">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8888a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <p class="pain-text"><strong>Claude Codeを走らせて離席。</strong><br>戻ってみたら承認待ちで止まっていた。</p>
+      </li>
+      <li class="pain-item">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8888a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <p class="pain-text"><strong>iPhoneに通知は来ない。</strong><br>承認待ちに気づくのは、PCに戻ったとき。</p>
+      </li>
+      <li class="pain-item">
+        <div class="pain-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8888a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <p class="pain-text"><strong>PCに戻って「y」を打つだけで5分ロス。</strong><br>たった1文字のために作業が止まる。</p>
+      </li>
+    </ul>
+    <p class="pain-solution fade-in">
+      Ninkaなら、iPhoneからワンタップ。<br>コードの流れを、止めない。
+    </p>
+  </div>
+</section>
+
+<!-- ===== 3 Steps ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title fade-in">3ステップで、今日から使える。</h2>
+    <div class="steps-grid fade-in">
+      <!-- Step 1 -->
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="18" stroke="#5b8af5" stroke-width="2" fill="none"/>
+            <path d="M18 24h12M24 18v12" stroke="#5b8af5" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="step-number">1</span>
+        <h3>Tailscaleを入れる</h3>
+        <p>PCとiPhoneにTailscaleをインストール。ルーターの設定変更は不要です。</p>
+      </div>
+      <!-- Step 2 -->
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="12" width="28" height="24" rx="4" stroke="#5b8af5" stroke-width="2" fill="none"/>
+            <path d="M18 24l4 4 8-8" stroke="#34c759" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="step-number">2</span>
+        <h3>Ninkaで接続先を登録</h3>
+        <p>TailscaleのIPアドレスを入力するだけ。SSH鍵にもパスワードにも対応。</p>
+      </div>
+      <!-- Step 3 -->
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="10" width="32" height="24" rx="4" stroke="#5b8af5" stroke-width="2" fill="none"/>
+            <text x="15" y="26" font-family="monospace" font-size="11" fill="#55556a">&gt;_</text>
+            <text x="30" y="26" font-family="monospace" font-size="12" font-weight="bold" fill="#34c759">y</text>
+            <polygon points="14,34 22,34 14,40" fill="none" stroke="#5b8af5" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <span class="step-number">3</span>
+        <h3>tmuxセッションに接続</h3>
+        <p>Claude Codeが動いているセッションを選んでタップ。あとは承認ボタンを待つだけ。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Features ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title fade-in">主な機能</h2>
+    <div class="features-grid fade-in">
+      <!-- Chat UI -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <h3>チャット風UI</h3>
+        <p>ターミナル出力をLINEのようなチャットバブルで表示。サーバーの応答が見やすく、直感的に操作できます。</p>
+      </div>
+      <!-- Auto Detection -->
+      <div class="feature-card">
+        <div class="feature-icon feature-icon--approve">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3>承認パターン自動検出</h3>
+        <p>(y/n)、(Y/n)、(y/n/a)、Allow? などの承認プロンプトを自動で検出し、大きな承認ボタンを表示します。</p>
+      </div>
+      <!-- One Tap -->
+      <div class="feature-card">
+        <div class="feature-icon feature-icon--approve">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9,12 11,14 15,10"/></svg>
+        </div>
+        <h3>ワンタップ操作</h3>
+        <p>承認(y)、拒否(n)、すべて許可(a)、中断(Ctrl+C)をワンタップで送信。キーボード入力は不要です。</p>
+      </div>
+      <!-- tmux -->
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="3" x2="12" y2="12"/></svg>
+        </div>
+        <h3>tmuxセッション対応</h3>
+        <p>tmuxセッションの一覧表示・選択・自動アタッチに対応。デフォルトセッション設定で接続をさらに高速化。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Compatible Tools ===== -->
+<section class="tools-section">
+  <div class="container">
+    <h2 class="section-title fade-in">対応するAIエージェント</h2>
+    <div class="tools-list fade-in">
+      <span class="tool-tag">Claude Code</span>
+      <span class="tool-tag">Aider</span>
+      <span class="tool-tag">Cursor Agent</span>
+      <span class="tool-tag">GitHub Copilot CLI</span>
+      <span class="tool-tag">Cline</span>
+      <span class="tool-tag">Roo Code</span>
+    </div>
+    <p class="tools-note fade-in">(y/n) プロンプトを使うCLIツール全般に対応しています</p>
+  </div>
+</section>
+
+<!-- ===== Pricing ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title fade-in">料金プラン</h2>
+    <div class="pricing-grid fade-in">
+      <!-- Free -->
+      <div class="pricing-card">
+        <h3>無料版</h3>
+        <p class="pricing-price">&#165;0</p>
+        <p class="pricing-desc">基本的な承認操作に必要な全機能</p>
+        <ul class="pricing-features">
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            サーバー1台への接続
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            チャット風UI
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            承認パターン自動検出
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            ワンタップ承認
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            tmuxセッション対応
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            生体認証 (Face ID / Touch ID)
+          </li>
+          <li class="disabled">
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M13.5 5.56L12.44 4.5 9 7.94 5.56 4.5 4.5 5.56 7.94 9 4.5 12.44l1.06 1.06L9 10.06l3.44 3.44 1.06-1.06L10.06 9l3.44-3.44z"/></svg>
+            複数サーバー接続
+          </li>
+          <li class="disabled">
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M13.5 5.56L12.44 4.5 9 7.94 5.56 4.5 4.5 5.56 7.94 9 4.5 12.44l1.06 1.06L9 10.06l3.44 3.44 1.06-1.06L10.06 9l3.44-3.44z"/></svg>
+            プッシュ通知
+          </li>
+          <li class="disabled">
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M13.5 5.56L12.44 4.5 9 7.94 5.56 4.5 4.5 5.56 7.94 9 4.5 12.44l1.06 1.06L9 10.06l3.44 3.44 1.06-1.06L10.06 9l3.44-3.44z"/></svg>
+            Apple Watch対応
+          </li>
+        </ul>
+      </div>
+      <!-- Pro -->
+      <div class="pricing-card pricing-card--pro">
+        <span class="pricing-badge">おすすめ</span>
+        <h3>Pro</h3>
+        <p class="pricing-price">&#165;1,100 <span>買い切り</span></p>
+        <p class="pricing-desc">すべての機能をアンロック。サブスク不要。</p>
+        <ul class="pricing-features">
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            無料版の全機能
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            複数サーバーへの接続
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            承認待ちプッシュ通知
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            Apple Watch対応
+          </li>
+          <li>
+            <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
+            優先サポート
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section>
+  <div class="container">
+    <h2 class="section-title fade-in">よくある質問</h2>
+    <div class="faq-list fade-in">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Tailscale以外でも使えますか？
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">はい。VPN、ポート転送、社内ネットワーク等、SSH接続できる環境であれば何でも使えます。Tailscaleは最も手軽な方法としておすすめしていますが、必須ではありません。</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Tailscaleは有料ですか？
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">個人利用は無料です（Personalプランで最大100デバイス）。iPhoneと自宅PCの2台だけであれば、費用は一切かかりません。</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          tmuxは必須ですか？
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Claude Codeなどの出力を確認するためにtmuxセッションが必要です。tmuxをインストールしてClaude Codeをtmuxセッション内で起動しておくと、iPhoneからそのセッションにアタッチして操作できます。</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          どのAIエージェントに対応していますか？
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Claude Code、Aider、Cursor Agent、GitHub Copilot CLI、Cline、Roo Codeなど、ターミナルで (y/n) プロンプトを表示するツール全般に対応しています。特定のツールに依存しない汎用的な仕組みです。</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          データはどこに保存されますか？
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">すべてのデータ（SSH鍵、パスワード、接続情報）はiOS Keychainを使ってデバイス内にのみ保存されます。外部サーバーへのデータ送信やiCloud同期は一切行いません。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer CTA ===== -->
+<section class="footer-cta">
+  <div class="container fade-in">
+    <h2>AIエージェントの承認を、もっと快適に。</h2>
+    <p>Ninkaで、コードの流れを止めない開発体験を。</p>
+    <a href="#" class="cta-button" aria-label="App Storeでダウンロード">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm-.5 14.5l-4-4 1.41-1.41L9.5 11.67l5.09-5.09L16 8l-6.5 6.5z"/></svg>
+      App Store でダウンロード
+    </a>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/privacy/">プライバシーポリシー</a>
+    <a href="/terms/">利用規約</a>
+    <a href="/support/">サポート</a>
+  </div>
+  <p class="footer-copyright">&copy; 2026 Ninka. All rights reserved.</p>
+</footer>
+
+<!-- ===== JavaScript ===== -->
+<script>
+// Fade-in on scroll
+(function() {
+  var elements = document.querySelectorAll('.fade-in');
+
+  function checkVisibility() {
+    var windowHeight = window.innerHeight;
+    for (var i = 0; i < elements.length; i++) {
+      var el = elements[i];
+      var rect = el.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.88) {
+        el.classList.add('visible');
+      }
+    }
+  }
+
+  // Initial check
+  checkVisibility();
+
+  // Throttled scroll handler
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(function() {
+        checkVisibility();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+
+// FAQ accordion
+(function() {
+  var items = document.querySelectorAll('.faq-item');
+  for (var i = 0; i < items.length; i++) {
+    (function(item) {
+      var btn = item.querySelector('.faq-question');
+      var answer = item.querySelector('.faq-answer');
+      btn.addEventListener('click', function() {
+        var isOpen = item.classList.contains('open');
+
+        // Close all
+        for (var j = 0; j < items.length; j++) {
+          items[j].classList.remove('open');
+          items[j].querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          items[j].querySelector('.faq-answer').style.maxHeight = null;
+        }
+
+        // Toggle current
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    })(items[i]);
+  }
+})();
+</script>
+
+</body>
+</html>

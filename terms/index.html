@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>利用規約 - Ninka</title>
+<meta name="description" content="Ninkaの利用規約。iPhoneからSSH接続を介してリモートサーバを操作するチャット風SSHクライアントの利用条件。">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0c; --surface: #141418; --border: #2a2a35;
+  --text-primary: #e8e8ed; --text-secondary: #8888a0; --text-muted: #55556a;
+  --accent: #5b8af5;
+}
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg); color: var(--text-primary); line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--accent); text-decoration: none; font-size: 0.9rem; margin-bottom: 32px;
+}
+.back-link:hover { text-decoration: underline; }
+h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+.updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 40px; }
+h2 { font-size: 1.15rem; font-weight: 700; margin: 36px 0 12px; color: var(--text-primary); }
+p, li { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8; }
+p { margin-bottom: 12px; }
+ol { padding-left: 24px; margin-bottom: 12px; }
+ul { list-style: disc; padding-left: 24px; margin-bottom: 12px; }
+li { margin-bottom: 4px; }
+a { color: var(--accent); }
+strong { color: var(--text-primary); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.footer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="container">
+<a href="/" class="back-link">&larr; Ninkaトップに戻る</a>
+<h1>利用規約</h1>
+<p class="updated">最終更新日: 2026年3月9日</p>
+
+<h2>第1条（適用）</h2>
+<ol>
+<li>本利用規約（以下「本規約」）は、Ninka（以下「本アプリ」）の利用に関する条件を定めるものです。</li>
+<li>ユーザーは、本アプリをダウンロードまたは使用することにより、本規約に同意したものとみなされます。</li>
+<li>本規約に同意いただけない場合は、本アプリの使用を中止してください。</li>
+</ol>
+
+<h2>第2条（定義）</h2>
+<p>本規約において使用する用語の定義は以下のとおりです。</p>
+<ol>
+<li><strong>「本アプリ」</strong>: Ninkaアプリケーションおよびそれに付随するすべてのコンポーネント</li>
+<li><strong>「当方」</strong>: 本アプリの開発・提供者</li>
+<li><strong>「ユーザー」</strong>: 本アプリを使用するすべての個人または法人</li>
+<li><strong>「接続先サーバ」</strong>: ユーザーが本アプリを通じてSSH接続するリモートサーバ</li>
+</ol>
+
+<h2>第3条（本アプリの概要）</h2>
+<ol>
+<li>本アプリは、iPhoneからSSH接続を介してリモートサーバを操作するためのチャット風SSHクライアントです。</li>
+<li>本アプリは、SSH接続機能、tmuxセッション管理機能、および承認操作の補助機能を提供します。</li>
+</ol>
+
+<h2>第4条（利用条件）</h2>
+<ol>
+<li>本アプリの利用にはiOS 17以降を搭載したiPhoneが必要です。</li>
+<li>ユーザーは、接続先サーバへの正当なアクセス権限を有している必要があります。</li>
+<li>SSH接続に必要なサーバ情報、認証情報はユーザー自身が管理するものとします。</li>
+</ol>
+
+<h2>第5条（App内課金）</h2>
+<ol>
+<li>本アプリは、無料版と有料Pro版（買い切り ¥1,100）を提供します。</li>
+<li>Pro版の購入はApple Inc.のApp内課金を通じて行われます。</li>
+<li>購入後の返金については、Apple Inc.の返金ポリシーに従います。</li>
+<li>Pro版はユーザーのApple IDに紐づき、同一Apple IDであれば再ダウンロード可能です。</li>
+</ol>
+
+<h2>第6条（禁止事項）</h2>
+<p>ユーザーは、本アプリの使用において以下の行為を行ってはなりません。</p>
+<ol>
+<li><strong>不正アクセス</strong>: アクセス権限を有しないサーバへの接続、または不正な手段によるサーバへのアクセス</li>
+<li><strong>法令違反</strong>: 不正アクセス行為の禁止等に関する法律（不正アクセス禁止法）その他の法令に違反する行為</li>
+<li><strong>権利侵害</strong>: 第三者のプライバシー、知的財産権、その他の権利を侵害する行為</li>
+<li><strong>不正利用</strong>: 本アプリの機能を悪用し、接続先サーバまたは第三者に損害を与える行為</li>
+<li><strong>リバースエンジニアリング</strong>: 本アプリの逆コンパイル、逆アセンブル、リバースエンジニアリングその他のソースコード解析行為（法律で許容される範囲を除く）</li>
+<li><strong>再配布</strong>: 本アプリの複製、改変、再配布、貸与、または販売</li>
+<li><strong>妨害行為</strong>: 本アプリの運営を妨害する行為、またはそのおそれのある行為</li>
+</ol>
+
+<h2>第7条（SSH接続に関する免責事項）</h2>
+<ol>
+<li>本アプリはSSH接続のクライアント機能を提供するものであり、接続先サーバの運用、管理、セキュリティについて当方は一切の責任を負いません。</li>
+<li>以下の事象について当方は責任を負いません。
+<ul>
+<li>接続先サーバの障害、停止、データ損失</li>
+<li>SSH接続の中断、遅延、切断</li>
+<li>接続先サーバ上で実行されたコマンドの結果</li>
+<li>ネットワーク障害による接続不能</li>
+<li>ユーザーの認証情報の漏洩（ユーザーの管理不備に起因するもの）</li>
+<li>tmuxセッションの予期しない動作</li>
+</ul></li>
+<li>ユーザーは、SSH接続を通じて実行するすべての操作について、自己の責任において行うものとします。</li>
+</ol>
+
+<h2>第8条（セキュリティ）</h2>
+<ol>
+<li>本アプリは、ユーザーのデータを保護するため合理的なセキュリティ対策を講じていますが、すべてのセキュリティリスクを排除することを保証するものではありません。</li>
+<li>ユーザーは、SSH秘密鍵およびパスワードを適切に管理する責任を負います。</li>
+<li>デバイスの紛失・盗難時には、ユーザーの責任において接続先サーバの認証情報を変更する等の対策を講じてください。</li>
+</ol>
+
+<h2>第9条（知的財産権）</h2>
+<ol>
+<li>本アプリに関するすべての知的財産権（著作権、商標権、特許権等を含みますがこれらに限りません）は、当方またはその正当なライセンサーに帰属します。</li>
+<li>ユーザーに対して付与されるのは、本規約の条件に従った本アプリの非独占的、譲渡不能、再許諾不能な使用権のみです。</li>
+<li>本アプリが使用するオープンソースソフトウェアのライセンスは、それぞれのライセンス条項に従います。</li>
+</ol>
+
+<h2>第10条（保証の否認）</h2>
+<ol>
+<li>本アプリは「現状のまま（AS IS）」で提供されます。</li>
+<li>当方は、本アプリについて以下の事項を保証しません。
+<ul>
+<li>本アプリが特定の目的に適合すること</li>
+<li>本アプリに瑕疵（バグ等）がないこと</li>
+<li>本アプリが中断なく動作すること</li>
+<li>本アプリの利用がユーザーの要求を満たすこと</li>
+</ul></li>
+<li>法律上許容される最大限の範囲で、明示または黙示を問わず、一切の保証を否認します。</li>
+</ol>
+
+<h2>第11条（損害賠償の制限）</h2>
+<ol>
+<li>当方は、本アプリの使用または使用不能に起因する間接損害、特別損害、付随的損害、派生的損害、逸失利益について、一切の責任を負いません。</li>
+<li>当方の責任が認められる場合であっても、損害賠償の総額は、ユーザーが本アプリの購入に支払った金額を上限とします。</li>
+<li>ただし、当方の故意または重大な過失による場合はこの限りではありません。</li>
+</ol>
+
+<h2>第12条（サービスの変更・終了）</h2>
+<ol>
+<li>当方は、事前の通知なく本アプリの内容を変更、追加、または削除することがあります。</li>
+<li>当方は、やむを得ない事情がある場合、本アプリの提供を終了することがあります。この場合、可能な限り事前に通知するよう努めますが、緊急の場合はこの限りではありません。</li>
+</ol>
+
+<h2>第13条（本規約の変更）</h2>
+<ol>
+<li>当方は、必要に応じて本規約を変更できるものとします。</li>
+<li>変更後の規約は、本アプリ内またはApp Storeの掲載情報を通じて公開した時点で効力を生じます。</li>
+<li>本規約の変更後に本アプリを継続して使用した場合、ユーザーは変更後の規約に同意したものとみなされます。</li>
+</ol>
+
+<h2>第14条（分離可能性）</h2>
+<p>本規約のいずれかの条項が無効または執行不能と判断された場合であっても、その他の条項の有効性には影響しないものとします。</p>
+
+<h2>第15条（準拠法および管轄裁判所）</h2>
+<ol>
+<li>本規約は日本法に準拠し、日本法に従って解釈されるものとします。</li>
+<li>本規約に関連する紛争については、当方の住所地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。</li>
+</ol>
+
+<h2>第16条（お問い合わせ）</h2>
+<p>本規約に関するご質問やお問い合わせは、以下の連絡先までお願いいたします。</p>
+<ul>
+<li>メール: <a href="mailto:support@japan-itech.com">support@japan-itech.com</a></li>
+<li>App Store内のサポートページ</li>
+</ul>
+
+<hr>
+<p class="footer">&copy; 2026 Ninka. All rights reserved.</p>
+</div>
+</body>
+</html>

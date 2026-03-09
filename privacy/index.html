@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>プライバシーポリシー - Ninka</title>
+<meta name="description" content="Ninkaのプライバシーポリシー。データはすべてデバイス内に保存され、外部送信は一切行いません。">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0c; --surface: #141418; --border: #2a2a35;
+  --text-primary: #e8e8ed; --text-secondary: #8888a0; --text-muted: #55556a;
+  --accent: #5b8af5;
+}
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg); color: var(--text-primary); line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 720px; margin: 0 auto; padding: 60px 24px 80px; }
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--accent); text-decoration: none; font-size: 0.9rem; margin-bottom: 32px;
+}
+.back-link:hover { text-decoration: underline; }
+h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+.updated { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 40px; }
+h2 { font-size: 1.15rem; font-weight: 700; margin: 36px 0 12px; color: var(--text-primary); }
+h3 { font-size: 1rem; font-weight: 600; margin: 24px 0 8px; color: var(--text-primary); }
+p, li { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.8; }
+p { margin-bottom: 12px; }
+ul { list-style: disc; padding-left: 24px; margin-bottom: 12px; }
+li { margin-bottom: 4px; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 0.85rem; }
+th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
+th { background: var(--surface); color: var(--text-primary); font-weight: 600; }
+td { color: var(--text-secondary); }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.footer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 40px; }
+</style>
+</head>
+<body>
+<div class="container">
+<a href="/" class="back-link">&larr; Ninkaトップに戻る</a>
+<h1>プライバシーポリシー</h1>
+<p class="updated">最終更新日: 2026年3月9日</p>
+
+<h2>はじめに</h2>
+<p>本プライバシーポリシー（以下「本ポリシー」）は、Ninka（以下「本アプリ」）におけるユーザーの個人情報およびデータの取り扱いについて定めるものです。本アプリは、個人情報の保護に関する法律（個人情報保護法）およびその他の関連法令を遵守します。</p>
+<p>本アプリの開発・提供者（以下「当方」）は、ユーザーのプライバシーを最大限に尊重し、本ポリシーに基づきデータを適切に取り扱います。</p>
+
+<h2>1. 本アプリの概要</h2>
+<p>Ninkaは、iPhoneからSSH接続を介してリモートサーバを操作するためのチャット風SSHクライアントアプリです。</p>
+
+<h2>2. 収集する情報</h2>
+<h3>2.1 外部送信するデータ</h3>
+<p>本アプリは、ユーザーのデータを外部サーバ、クラウドサービス、分析サービス、広告ネットワーク等に一切送信しません。</p>
+
+<h3>2.2 デバイスにローカル保存するデータ</h3>
+<p>本アプリは、以下のデータをユーザーのデバイス上にのみ保存します。</p>
+<table>
+<tr><th>データ種別</th><th>保存先</th><th>保護方法</th></tr>
+<tr><td>SSH接続情報（ホスト名、ポート番号、ユーザー名）</td><td>iOS Keychain</td><td>AES-GCM 256bit暗号化 + Keychainハードウェア保護</td></tr>
+<tr><td>SSH認証情報（パスワード、SSH秘密鍵）</td><td>iOS Keychain</td><td>kSecAttrAccessibleWhenUnlockedThisDeviceOnly アクセス制御</td></tr>
+<tr><td>ホスト鍵フィンガープリント</td><td>UserDefaults（暗号化）</td><td>AES-GCM 256bit暗号化</td></tr>
+<tr><td>アプリ設定（表示設定等）</td><td>UserDefaults</td><td>デバイスローカル</td></tr>
+</table>
+
+<h3>2.3 収集しないデータ</h3>
+<ul>
+<li>氏名、メールアドレス、電話番号等の個人識別情報</li>
+<li>位置情報</li>
+<li>SSH通信の内容（セッション終了時に破棄）</li>
+<li>デバイス識別子（IDFA等）</li>
+<li>利用状況の分析データ</li>
+<li>クラッシュログの外部送信</li>
+</ul>
+
+<h2>3. データの利用目的</h2>
+<p>ローカルに保存するデータは、以下の目的のみに使用します。</p>
+<ul>
+<li>SSH接続の確立および認証</li>
+<li>ホスト鍵の検証（TOFU: Trust On First Use）</li>
+<li>ユーザーのアプリ設定の保持</li>
+</ul>
+
+<h2>4. 第三者への提供</h2>
+<p>本アプリは、ユーザーのデータを第三者に提供しません。</p>
+<ul>
+<li>広告ネットワークへのデータ提供はありません</li>
+<li>分析サービスへのデータ送信はありません</li>
+<li>クラウドサービスへのデータ同期はありません</li>
+<li>iCloudへのデータバックアップは行いません</li>
+</ul>
+
+<h2>5. App内課金</h2>
+<p>本アプリはApp内課金（買い切りPro版）を提供しています。課金に関する決済処理はすべてApple Inc.が管理しており、当方はクレジットカード情報等の決済情報を一切取得・保存しません。課金に関するプライバシーについては、<a href="https://www.apple.com/legal/privacy/">Appleのプライバシーポリシー</a>をご参照ください。</p>
+
+<h2>6. 生体認証</h2>
+<p>本アプリはFace IDまたはTouch IDによる生体認証機能を提供しています。生体認証データはiOSのSecure Enclaveで処理され、本アプリはこれらの生体情報に一切アクセスできません。認証の成否のみがiOSから通知されます。</p>
+
+<h2>7. SSH通信について</h2>
+<p>本アプリを通じて行われるSSH通信は、ユーザーのデバイスと接続先サーバ間で直接暗号化通信（SSHプロトコル）により行われます。当方は通信内容を閲覧・傍受・記録する手段を持たず、またそのような行為を行いません。</p>
+<p>SSH通信の内容はアプリのメモリ上で一時的に処理され、セッション終了時またはアプリ終了時に破棄されます。</p>
+
+<h2>8. データの削除</h2>
+<p>ユーザーは以下の方法でデータを削除できます。</p>
+<ul>
+<li><strong>個別の接続情報</strong>: アプリ内の接続先一覧画面から削除</li>
+<li><strong>全データ</strong>: アプリをデバイスからアンインストール</li>
+</ul>
+<p>アプリのアンインストールにより、Keychain内のデータを含むすべてのアプリ関連データが削除されます。</p>
+
+<h2>9. 未成年者のプライバシー</h2>
+<p>本アプリは、13歳未満の児童を対象としたサービスではありません。13歳未満の児童から意図的に個人情報を収集することはありません。</p>
+
+<h2>10. セキュリティ</h2>
+<p>本アプリは、ユーザーのデータを保護するため以下のセキュリティ対策を講じています。</p>
+<ul>
+<li>iOS Keychainによるハードウェアレベルのデータ保護</li>
+<li>AES-GCM 256bit暗号化によるデータの暗号化</li>
+<li>生体認証（Face ID / Touch ID）によるアプリアクセス制御</li>
+<li>スクリーンショット防止機能</li>
+<li>クリップボードの自動消去機能</li>
+<li>すべてのデータのデバイスローカル保存（外部送信なし）</li>
+</ul>
+
+<h2>11. 本ポリシーの変更</h2>
+<p>本ポリシーは、法令の改正やアプリの機能変更等に伴い、事前の通知なく変更される場合があります。変更後のポリシーは、アプリ内またはApp Storeの掲載情報を通じて公開します。重要な変更がある場合は、アプリ内で通知します。</p>
+
+<h2>12. 準拠法</h2>
+<p>本ポリシーは日本法に準拠し、日本法に従って解釈されるものとします。</p>
+
+<h2>13. お問い合わせ</h2>
+<p>本ポリシーに関するご質問やお問い合わせは、以下の連絡先までお願いいたします。</p>
+<ul>
+<li>メール: <a href="mailto:support@japan-itech.com">support@japan-itech.com</a></li>
+<li>App Store内のサポートページ</li>
+</ul>
+
+<hr>
+<p class="footer">&copy; 2026 Ninka. All rights reserved.</p>
+</div>
+</body>
+</html>
