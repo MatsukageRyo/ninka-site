@@ -99,6 +99,42 @@ section {
   transform: translateY(0);
 }
 
+/* ========== Language Toggle ========== */
+.lang-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.lang-toggle button {
+  background: none;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lang-toggle button.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.lang-toggle button:not(.active):hover {
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
 /* ========== Hero ========== */
 .hero {
   min-height: 100vh;
@@ -828,6 +864,12 @@ section {
 </head>
 <body>
 
+<!-- ===== Language Toggle ===== -->
+<div class="lang-toggle">
+  <button id="lang-ja" class="active" onclick="setLang('ja')">JA</button>
+  <button id="lang-en" onclick="setLang('en')">EN</button>
+</div>
+
 <!-- ===== Hero ===== -->
 <section class="hero">
   <div class="hero-content fade-in">
@@ -839,11 +881,11 @@ section {
         <text x="33" y="30" font-family="SF Mono, Menlo, monospace" font-size="14" font-weight="bold" fill="#06C755">y</text>
       </svg>
     </div>
-    <h1>ソファから、<br>Claude Codeを承認。</h1>
-    <p class="subtitle">Tailscale × iPhone で、<br>AIエージェントの承認待ちをワンタップ解消。</p>
+    <h1 data-i18n="hero.title">ソファから、<br>Claude Codeを承認。</h1>
+    <p class="subtitle" data-i18n="hero.subtitle">Tailscale × iPhone で、<br>AIエージェントの承認待ちをワンタップ解消。</p>
     <a href="#" class="cta-button" aria-label="App Storeでダウンロード">
       <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm-.5 14.5l-4-4 1.41-1.41L9.5 11.67l5.09-5.09L16 8l-6.5 6.5z"/></svg>
-      App Store でダウンロード
+      <span data-i18n="hero.cta">App Store でダウンロード</span>
     </a>
 
     <!-- Chat Demo -->
@@ -855,11 +897,11 @@ section {
       <div class="chat-body">
         <div class="chat-bubble chat-bubble--output">Claude wants to edit<br>src/App.tsx</div>
         <div class="chat-bubble chat-bubble--approval">
-          <span class="approval-label">承認待ち</span>
+          <span class="approval-label" data-i18n="chat.badge">承認待ち</span>
           <div>Allow this edit? (y/n)</div>
           <div class="approval-buttons">
-            <span class="btn-approve">承認</span>
-            <span class="btn-reject">拒否</span>
+            <span class="btn-approve" data-i18n="chat.approve">承認</span>
+            <span class="btn-reject" data-i18n="chat.reject">拒否</span>
           </div>
         </div>
         <div class="chat-bubble chat-bubble--input">y</div>
@@ -871,29 +913,29 @@ section {
 <!-- ===== Pain Points ===== -->
 <section class="pain-points">
   <div class="container">
-    <h2 class="section-title fade-in">こんな経験、ありませんか？</h2>
-    <p class="section-subtitle fade-in">Claude Codeの承認待ち、実はけっこうストレス。</p>
+    <h2 class="section-title fade-in" data-i18n="pain.title">こんな経験、ありませんか？</h2>
+    <p class="section-subtitle fade-in" data-i18n="pain.subtitle">Claude Codeの承認待ち、実はけっこうストレス。</p>
     <ul class="pain-list fade-in">
       <li class="pain-item">
         <div class="pain-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
         </div>
-        <p class="pain-text"><strong>Claude Codeを走らせて離席。</strong><br>戻ってみたら承認待ちで止まっていた。</p>
+        <p class="pain-text" data-i18n="pain.1"><strong>Claude Codeを走らせて離席。</strong><br>戻ってみたら承認待ちで止まっていた。</p>
       </li>
       <li class="pain-item">
         <div class="pain-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
         </div>
-        <p class="pain-text"><strong>iPhoneに通知は来ない。</strong><br>承認待ちに気づくのは、PCに戻ったとき。</p>
+        <p class="pain-text" data-i18n="pain.2"><strong>iPhoneに通知は来ない。</strong><br>承認待ちに気づくのは、PCに戻ったとき。</p>
       </li>
       <li class="pain-item">
         <div class="pain-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
         </div>
-        <p class="pain-text"><strong>PCに戻って「y」を打つだけで5分ロス。</strong><br>たった1文字のために作業が止まる。</p>
+        <p class="pain-text" data-i18n="pain.3"><strong>PCに戻って「y」を打つだけで5分ロス。</strong><br>たった1文字のために作業が止まる。</p>
       </li>
     </ul>
-    <p class="pain-solution fade-in">
+    <p class="pain-solution fade-in" data-i18n="pain.solution">
       Ninkaなら、iPhoneからワンタップ。<br>コードの流れを、止めない。
     </p>
   </div>
@@ -902,8 +944,8 @@ section {
 <!-- ===== 3 Steps ===== -->
 <section class="steps-section">
   <div class="container">
-    <h2 class="section-title fade-in">3ステップで、今日から使える。</h2>
-    <p class="section-subtitle fade-in">むずかしい設定は不要。すぐに始められます。</p>
+    <h2 class="section-title fade-in" data-i18n="steps.title">3ステップで、今日から使える。</h2>
+    <p class="section-subtitle fade-in" data-i18n="steps.subtitle">むずかしい設定は不要。すぐに始められます。</p>
     <div class="steps-grid fade-in">
       <div class="step-card">
         <div class="step-icon">
@@ -913,8 +955,8 @@ section {
           </svg>
         </div>
         <span class="step-number">1</span>
-        <h3>Tailscaleを入れる</h3>
-        <p>PCとiPhoneにTailscaleをインストール。ルーターの設定変更は不要です。</p>
+        <h3 data-i18n="step.1.title">Tailscaleを入れる</h3>
+        <p data-i18n="step.1.desc">PCとiPhoneにTailscaleをインストール。ルーターの設定変更は不要です。</p>
       </div>
       <div class="step-card">
         <div class="step-icon">
@@ -924,8 +966,8 @@ section {
           </svg>
         </div>
         <span class="step-number">2</span>
-        <h3>Ninkaで接続先を登録</h3>
-        <p>TailscaleのIPアドレスを入力するだけ。SSH鍵にもパスワードにも対応。</p>
+        <h3 data-i18n="step.2.title">Ninkaで接続先を登録</h3>
+        <p data-i18n="step.2.desc">TailscaleのIPアドレスを入力するだけ。SSH鍵にもパスワードにも対応。</p>
       </div>
       <div class="step-card">
         <div class="step-icon">
@@ -937,8 +979,8 @@ section {
           </svg>
         </div>
         <span class="step-number">3</span>
-        <h3>tmuxセッションに接続</h3>
-        <p>Claude Codeが動いているセッションを選んでタップ。あとは承認ボタンを待つだけ。</p>
+        <h3 data-i18n="step.3.title">tmuxセッションに接続</h3>
+        <p data-i18n="step.3.desc">Claude Codeが動いているセッションを選んでタップ。あとは承認ボタンを待つだけ。</p>
       </div>
     </div>
   </div>
@@ -947,36 +989,36 @@ section {
 <!-- ===== Features ===== -->
 <section class="features-section">
   <div class="container">
-    <h2 class="section-title fade-in">主な機能</h2>
-    <p class="section-subtitle fade-in">シンプルだけど、必要なものは全部入り。</p>
+    <h2 class="section-title fade-in" data-i18n="feat.title">主な機能</h2>
+    <p class="section-subtitle fade-in" data-i18n="feat.subtitle">シンプルだけど、必要なものは全部入り。</p>
     <div class="features-grid fade-in">
       <div class="feature-card">
         <div class="feature-icon feature-icon--blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         </div>
-        <h3>チャット風UI</h3>
-        <p>ターミナル出力をLINEのようなチャットバブルで表示。サーバーの応答が見やすく、直感的に操作できます。</p>
+        <h3 data-i18n="feat.chat.title">チャット風UI</h3>
+        <p data-i18n="feat.chat.desc">ターミナル出力をLINEのようなチャットバブルで表示。サーバーの応答が見やすく、直感的に操作できます。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </div>
-        <h3>承認パターン自動検出</h3>
-        <p>(y/n)、(Y/n)、(y/n/a)、Allow? などの承認プロンプトを自動で検出し、大きな承認ボタンを表示します。</p>
+        <h3 data-i18n="feat.detect.title">承認パターン自動検出</h3>
+        <p data-i18n="feat.detect.desc">(y/n)、(Y/n)、(y/n/a)、Allow? などの承認プロンプトを自動で検出し、大きな承認ボタンを表示します。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9,12 11,14 15,10"/></svg>
         </div>
-        <h3>ワンタップ操作</h3>
-        <p>承認(y)、拒否(n)、すべて許可(a)、中断(Ctrl+C)をワンタップで送信。キーボード入力は不要です。</p>
+        <h3 data-i18n="feat.tap.title">ワンタップ操作</h3>
+        <p data-i18n="feat.tap.desc">承認(y)、拒否(n)、すべて許可(a)、中断(Ctrl+C)をワンタップで送信。キーボード入力は不要です。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon feature-icon--blue">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="3" x2="12" y2="12"/></svg>
         </div>
-        <h3>tmuxセッション対応</h3>
-        <p>tmuxセッションの一覧表示・選択・自動アタッチに対応。デフォルトセッション設定で接続をさらに高速化。</p>
+        <h3 data-i18n="feat.tmux.title">tmuxセッション対応</h3>
+        <p data-i18n="feat.tmux.desc">tmuxセッションの一覧表示・選択・自動アタッチに対応。デフォルトセッション設定で接続をさらに高速化。</p>
       </div>
     </div>
   </div>
@@ -985,8 +1027,8 @@ section {
 <!-- ===== Compatible Tools ===== -->
 <section class="tools-section">
   <div class="container">
-    <h2 class="section-title fade-in">対応するAIエージェント</h2>
-    <p class="section-subtitle fade-in">特定のツールに依存しない、汎用的な仕組み。</p>
+    <h2 class="section-title fade-in" data-i18n="tools.title">対応するAIエージェント</h2>
+    <p class="section-subtitle fade-in" data-i18n="tools.subtitle">特定のツールに依存しない、汎用的な仕組み。</p>
     <div class="tools-list fade-in">
       <span class="tool-tag">Claude Code</span>
       <span class="tool-tag">Aider</span>
@@ -995,84 +1037,84 @@ section {
       <span class="tool-tag">Cline</span>
       <span class="tool-tag">Roo Code</span>
     </div>
-    <p class="tools-note fade-in">(y/n) プロンプトを使うCLIツール全般に対応しています</p>
+    <p class="tools-note fade-in" data-i18n="tools.note">(y/n) プロンプトを使うCLIツール全般に対応しています</p>
   </div>
 </section>
 
 <!-- ===== Pricing ===== -->
 <section class="pricing-section">
   <div class="container">
-    <h2 class="section-title fade-in">料金プラン</h2>
-    <p class="section-subtitle fade-in">サブスク不要。買い切りで安心。</p>
+    <h2 class="section-title fade-in" data-i18n="pricing.title">料金プラン</h2>
+    <p class="section-subtitle fade-in" data-i18n="pricing.subtitle">サブスク不要。買い切りで安心。</p>
     <div class="pricing-grid fade-in">
       <div class="pricing-card">
-        <h3>無料版</h3>
-        <p class="pricing-price">&#165;0</p>
-        <p class="pricing-desc">基本的な承認操作に必要な全機能</p>
+        <h3 data-i18n="pricing.free.name">無料版</h3>
+        <p class="pricing-price" data-i18n="pricing.free.price">&#165;0</p>
+        <p class="pricing-desc" data-i18n="pricing.free.desc">基本的な承認操作に必要な全機能</p>
         <ul class="pricing-features">
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            サーバー1台への接続
+            <span data-i18n="pricing.free.f1">サーバー1台への接続</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            チャット風UI
+            <span data-i18n="pricing.free.f2">チャット風UI</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            承認パターン自動検出
+            <span data-i18n="pricing.free.f3">承認パターン自動検出</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            ワンタップ承認
+            <span data-i18n="pricing.free.f4">ワンタップ承認</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            tmuxセッション対応
+            <span data-i18n="pricing.free.f5">tmuxセッション対応</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            生体認証 (Face ID / Touch ID)
+            <span data-i18n="pricing.free.f6">生体認証 (Face ID / Touch ID)</span>
           </li>
           <li class="disabled">
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M13.5 5.56L12.44 4.5 9 7.94 5.56 4.5 4.5 5.56 7.94 9 4.5 12.44l1.06 1.06L9 10.06l3.44 3.44 1.06-1.06L10.06 9l3.44-3.44z"/></svg>
-            複数サーバー接続
+            <span data-i18n="pricing.free.f7">複数サーバー接続</span>
           </li>
           <li class="disabled">
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M13.5 5.56L12.44 4.5 9 7.94 5.56 4.5 4.5 5.56 7.94 9 4.5 12.44l1.06 1.06L9 10.06l3.44 3.44 1.06-1.06L10.06 9l3.44-3.44z"/></svg>
-            プッシュ通知
+            <span data-i18n="pricing.free.f8">プッシュ通知</span>
           </li>
           <li class="disabled">
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M13.5 5.56L12.44 4.5 9 7.94 5.56 4.5 4.5 5.56 7.94 9 4.5 12.44l1.06 1.06L9 10.06l3.44 3.44 1.06-1.06L10.06 9l3.44-3.44z"/></svg>
-            Apple Watch対応
+            <span data-i18n="pricing.free.f9">Apple Watch対応</span>
           </li>
         </ul>
       </div>
       <div class="pricing-card pricing-card--pro">
-        <span class="pricing-badge">おすすめ</span>
+        <span class="pricing-badge" data-i18n="pricing.pro.badge">おすすめ</span>
         <h3>Pro</h3>
-        <p class="pricing-price">&#165;1,100 <span>買い切り</span></p>
-        <p class="pricing-desc">すべての機能をアンロック。サブスク不要。</p>
+        <p class="pricing-price" data-i18n="pricing.pro.price">&#165;1,100 <span>買い切り</span></p>
+        <p class="pricing-desc" data-i18n="pricing.pro.desc">すべての機能をアンロック。サブスク不要。</p>
         <ul class="pricing-features">
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            無料版の全機能
+            <span data-i18n="pricing.pro.f1">無料版の全機能</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            複数サーバーへの接続
+            <span data-i18n="pricing.pro.f2">複数サーバーへの接続</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            承認待ちプッシュ通知
+            <span data-i18n="pricing.pro.f3">承認待ちプッシュ通知</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            Apple Watch対応
+            <span data-i18n="pricing.pro.f4">Apple Watch対応</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            優先サポート
+            <span data-i18n="pricing.pro.f5">優先サポート</span>
           </li>
         </ul>
       </div>
@@ -1083,57 +1125,57 @@ section {
 <!-- ===== FAQ ===== -->
 <section class="faq-section">
   <div class="container">
-    <h2 class="section-title fade-in">よくある質問</h2>
-    <p class="section-subtitle fade-in">気になることがあればこちらから。</p>
+    <h2 class="section-title fade-in" data-i18n="faq.title">よくある質問</h2>
+    <p class="section-subtitle fade-in" data-i18n="faq.subtitle">気になることがあればこちらから。</p>
     <div class="faq-list fade-in">
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          Tailscale以外でも使えますか？
+          <span data-i18n="faq.q1">Tailscale以外でも使えますか？</span>
           <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-inner">はい。VPN、ポート転送、社内ネットワーク等、SSH接続できる環境であれば何でも使えます。Tailscaleは最も手軽な方法としておすすめしていますが、必須ではありません。</div>
+          <div class="faq-answer-inner" data-i18n="faq.a1">はい。VPN、ポート転送、社内ネットワーク等、SSH接続できる環境であれば何でも使えます。Tailscaleは最も手軽な方法としておすすめしていますが、必須ではありません。</div>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          Tailscaleは有料ですか？
+          <span data-i18n="faq.q2">Tailscaleは有料ですか？</span>
           <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-inner">個人利用は無料です（Personalプランで最大100デバイス）。iPhoneと自宅PCの2台だけであれば、費用は一切かかりません。</div>
+          <div class="faq-answer-inner" data-i18n="faq.a2">個人利用は無料です（Personalプランで最大100デバイス）。iPhoneと自宅PCの2台だけであれば、費用は一切かかりません。</div>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          tmuxは必須ですか？
+          <span data-i18n="faq.q3">tmuxは必須ですか？</span>
           <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-inner">Claude Codeなどの出力を確認するためにtmuxセッションが必要です。tmuxをインストールしてClaude Codeをtmuxセッション内で起動しておくと、iPhoneからそのセッションにアタッチして操作できます。</div>
+          <div class="faq-answer-inner" data-i18n="faq.a3">Claude Codeなどの出力を確認するためにtmuxセッションが必要です。tmuxをインストールしてClaude Codeをtmuxセッション内で起動しておくと、iPhoneからそのセッションにアタッチして操作できます。</div>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          どのAIエージェントに対応していますか？
+          <span data-i18n="faq.q4">どのAIエージェントに対応していますか？</span>
           <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-inner">Claude Code、Aider、Cursor Agent、GitHub Copilot CLI、Cline、Roo Codeなど、ターミナルで (y/n) プロンプトを表示するツール全般に対応しています。特定のツールに依存しない汎用的な仕組みです。</div>
+          <div class="faq-answer-inner" data-i18n="faq.a4">Claude Code、Aider、Cursor Agent、GitHub Copilot CLI、Cline、Roo Codeなど、ターミナルで (y/n) プロンプトを表示するツール全般に対応しています。特定のツールに依存しない汎用的な仕組みです。</div>
         </div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question" aria-expanded="false">
-          データはどこに保存されますか？
+          <span data-i18n="faq.q5">データはどこに保存されますか？</span>
           <svg class="faq-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </button>
         <div class="faq-answer">
-          <div class="faq-answer-inner">すべてのデータ（SSH鍵、パスワード、接続情報）はiOS Keychainを使ってデバイス内にのみ保存されます。外部サーバーへのデータ送信やiCloud同期は一切行いません。</div>
+          <div class="faq-answer-inner" data-i18n="faq.a5">すべてのデータ（SSH鍵、パスワード、接続情報）はiOS Keychainを使ってデバイス内にのみ保存されます。外部サーバーへのデータ送信やiCloud同期は一切行いません。</div>
         </div>
       </div>
 
@@ -1144,11 +1186,11 @@ section {
 <!-- ===== Footer CTA ===== -->
 <section class="footer-cta">
   <div class="container fade-in">
-    <h2>AIエージェントの承認を、もっと快適に。</h2>
-    <p>Ninkaで、コードの流れを止めない開発体験を。</p>
+    <h2 data-i18n="cta.title">AIエージェントの承認を、もっと快適に。</h2>
+    <p data-i18n="cta.desc">Ninkaで、コードの流れを止めない開発体験を。</p>
     <a href="#" class="cta-button" aria-label="App Storeでダウンロード">
       <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm-.5 14.5l-4-4 1.41-1.41L9.5 11.67l5.09-5.09L16 8l-6.5 6.5z"/></svg>
-      App Store でダウンロード
+      <span data-i18n="cta.button">App Store でダウンロード</span>
     </a>
   </div>
 </section>
@@ -1156,15 +1198,150 @@ section {
 <!-- ===== Footer ===== -->
 <footer class="footer">
   <div class="footer-links">
-    <a href="/privacy/">プライバシーポリシー</a>
-    <a href="/terms/">利用規約</a>
-    <a href="/support/">サポート</a>
+    <a href="/privacy/" data-i18n="footer.privacy">プライバシーポリシー</a>
+    <a href="/terms/" data-i18n="footer.terms">利用規約</a>
+    <a href="/support/" data-i18n="footer.support">サポート</a>
   </div>
   <p class="footer-copyright">&copy; 2026 Ninka. All rights reserved.</p>
 </footer>
 
 <!-- ===== JavaScript ===== -->
 <script>
+// ========== i18n ==========
+var i18n = {
+  en: {
+    'hero.title': 'Approve Claude Code<br>from your couch.',
+    'hero.subtitle': 'Tailscale \u00d7 iPhone:<br>One tap to clear AI agent approval queues.',
+    'hero.cta': 'Download on the App Store',
+    'chat.badge': 'Awaiting Approval',
+    'chat.approve': 'Approve',
+    'chat.reject': 'Reject',
+    'pain.title': 'Sound familiar?',
+    'pain.subtitle': 'Waiting for Claude Code approvals is more stressful than you think.',
+    'pain.1': '<strong>You left Claude Code running and stepped away.</strong><br>Came back to find it stuck waiting for approval.',
+    'pain.2': '<strong>No notification on your iPhone.</strong><br>You only notice the approval prompt when you return to your PC.',
+    'pain.3': '<strong>5 minutes wasted just to type \u201cy\u201d.</strong><br>Your entire workflow stalls for a single keystroke.',
+    'pain.solution': 'With Ninka, one tap from your iPhone.<br>Keep your code flowing.',
+    'steps.title': 'Ready in 3 steps.',
+    'steps.subtitle': 'No complicated setup. Get started right away.',
+    'step.1.title': 'Install Tailscale',
+    'step.1.desc': 'Install Tailscale on your PC and iPhone. No router configuration needed.',
+    'step.2.title': 'Register your server in Ninka',
+    'step.2.desc': 'Just enter the Tailscale IP address. Works with both SSH keys and passwords.',
+    'step.3.title': 'Connect to a tmux session',
+    'step.3.desc': 'Select the session running Claude Code and tap. Then just wait for the approval button.',
+    'feat.title': 'Key Features',
+    'feat.subtitle': 'Simple, yet everything you need.',
+    'feat.chat.title': 'Chat-style UI',
+    'feat.chat.desc': 'Terminal output displayed as chat bubbles. Server responses are easy to read and intuitive to interact with.',
+    'feat.detect.title': 'Auto-detect Approval Prompts',
+    'feat.detect.desc': 'Automatically detects (y/n), (Y/n), (y/n/a), Allow? and other approval prompts, then shows large approval buttons.',
+    'feat.tap.title': 'One-tap Actions',
+    'feat.tap.desc': 'Send approve (y), reject (n), allow all (a), or interrupt (Ctrl+C) with a single tap. No keyboard needed.',
+    'feat.tmux.title': 'tmux Session Support',
+    'feat.tmux.desc': 'List, select, and auto-attach to tmux sessions. Set a default session for even faster connections.',
+    'tools.title': 'Compatible AI Agents',
+    'tools.subtitle': 'A universal mechanism, not tied to any specific tool.',
+    'tools.note': 'Works with any CLI tool that uses (y/n) prompts',
+    'pricing.title': 'Pricing',
+    'pricing.subtitle': 'No subscription. One-time purchase for peace of mind.',
+    'pricing.free.name': 'Free',
+    'pricing.free.price': '\u00a50',
+    'pricing.free.desc': 'All the features you need for basic approvals',
+    'pricing.free.f1': 'Connect to 1 server',
+    'pricing.free.f2': 'Chat-style UI',
+    'pricing.free.f3': 'Auto-detect approval prompts',
+    'pricing.free.f4': 'One-tap approval',
+    'pricing.free.f5': 'tmux session support',
+    'pricing.free.f6': 'Biometric auth (Face ID / Touch ID)',
+    'pricing.free.f7': 'Multiple server connections',
+    'pricing.free.f8': 'Push notifications',
+    'pricing.free.f9': 'Apple Watch support',
+    'pricing.pro.badge': 'Recommended',
+    'pricing.pro.price': '\u00a51,100 <span>one-time purchase</span>',
+    'pricing.pro.desc': 'Unlock all features. No subscription required.',
+    'pricing.pro.f1': 'All free features',
+    'pricing.pro.f2': 'Multiple server connections',
+    'pricing.pro.f3': 'Push notifications for approvals',
+    'pricing.pro.f4': 'Apple Watch support',
+    'pricing.pro.f5': 'Priority support',
+    'faq.title': 'FAQ',
+    'faq.subtitle': 'Got questions? Find answers here.',
+    'faq.q1': 'Can I use it without Tailscale?',
+    'faq.a1': 'Yes. It works with any SSH-accessible environment \u2014 VPN, port forwarding, corporate networks, etc. We recommend Tailscale as the easiest setup, but it\u2019s not required.',
+    'faq.q2': 'Is Tailscale free?',
+    'faq.a2': 'Free for personal use (Personal plan, up to 100 devices). If you\u2019re just connecting your iPhone and home PC, there\u2019s no cost at all.',
+    'faq.q3': 'Is tmux required?',
+    'faq.a3': 'Yes, tmux is needed to view output from Claude Code and similar tools. Install tmux and start Claude Code inside a tmux session, then attach from your iPhone.',
+    'faq.q4': 'Which AI agents are supported?',
+    'faq.a4': 'Claude Code, Aider, Cursor Agent, GitHub Copilot CLI, Cline, Roo Code, and any terminal tool that shows (y/n) prompts. It\u2019s a universal mechanism, not tied to any specific tool.',
+    'faq.q5': 'Where is my data stored?',
+    'faq.a5': 'All data (SSH keys, passwords, connection info) is stored only on your device using iOS Keychain. No data is sent to external servers, and no iCloud sync is performed.',
+    'cta.title': 'Make AI agent approvals effortless.',
+    'cta.desc': 'With Ninka, keep your development flow uninterrupted.',
+    'cta.button': 'Download on the App Store',
+    'footer.privacy': 'Privacy Policy',
+    'footer.terms': 'Terms of Service',
+    'footer.support': 'Support'
+  },
+  _meta: {
+    en: {
+      title: 'Ninka - Approve Claude Code from your couch.',
+      description: 'Tailscale \u00d7 iPhone: One tap to clear AI agent approval queues. A chat-style SSH client for Claude Code.'
+    },
+    ja: {
+      title: 'Ninka - \u30bd\u30d5\u30a1\u304b\u3089\u3001Claude Code\u3092\u627f\u8a8d\u3002',
+      description: 'Tailscale \u00d7 iPhone \u3067\u3001AI\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306e\u627f\u8a8d\u5f85\u3061\u3092\u30ef\u30f3\u30bf\u30c3\u30d7\u89e3\u6d88\u3002Claude Code\u5bfe\u5fdc\u306e\u30c1\u30e3\u30c3\u30c8\u98a8SSH\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3002'
+    }
+  }
+};
+
+var jaTexts = {};
+(function() {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    jaTexts[els[i].getAttribute('data-i18n')] = els[i].innerHTML;
+  }
+})();
+
+function setLang(lang) {
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var idx = 0; idx < els.length; idx++) {
+    var el = els[idx];
+    var key = el.getAttribute('data-i18n');
+    if (lang === 'en' && i18n.en[key]) {
+      el.innerHTML = i18n.en[key];
+    } else if (lang === 'ja' && jaTexts[key]) {
+      el.innerHTML = jaTexts[key];
+    }
+  }
+  document.documentElement.lang = lang;
+  var meta = i18n._meta[lang];
+  if (meta) {
+    document.title = meta.title;
+    var descEl = document.querySelector('meta[name="description"]');
+    if (descEl) descEl.setAttribute('content', meta.description);
+  }
+  document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  try { localStorage.setItem('ninka-lang', lang); } catch(e) {}
+}
+
+// Initialize language
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var lang = params.get('lang');
+  if (!lang) {
+    try { lang = localStorage.getItem('ninka-lang'); } catch(e) {}
+  }
+  if (!lang && navigator.language && !navigator.language.startsWith('ja')) {
+    lang = 'en';
+  }
+  if (lang === 'en') {
+    setLang('en');
+  }
+})();
+
 // Fade-in on scroll
 (function() {
   var elements = document.querySelectorAll('.fade-in');
