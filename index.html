@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ninka - ソファから、Claude Codeを承認。</title>
-<meta name="description" content="Tailscale × iPhone で、AIエージェントの承認待ちをワンタップ解消。Claude Code対応のチャット風SSHクライアント。">
+<meta name="description" content="Tailscale × iPhone で、AIエージェントの承認待ちをワンタップ解消。SwiftTermによる本格ターミナル搭載のiPhone SSHクライアント。">
 <style>
 /* ========== Reset & Base ========== */
 *, *::before, *::after {
@@ -940,7 +940,7 @@ section {
 <section class="video-section">
   <div class="container">
     <h2 class="section-title" data-i18n="video.title">30秒でわかるNinka</h2>
-    <p class="section-subtitle" data-i18n="video.subtitle">チャット感覚でSSH操作、ワンタップで承認。</p>
+    <p class="section-subtitle" data-i18n="video.subtitle">本格ターミナルで直感操作、ワンタップで承認。</p>
     <div class="video-wrapper">
       <video id="promo-video" src="assets/promo-ja.mp4?v=4" autoplay muted loop playsinline></video>
     </div>
@@ -1031,10 +1031,10 @@ section {
     <div class="features-grid fade-in">
       <div class="feature-card">
         <div class="feature-icon feature-icon--blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="6,9 10,12 6,15"/><line x1="12" y1="15" x2="18" y2="15"/></svg>
         </div>
-        <h3 data-i18n="feat.chat.title">チャット風UI</h3>
-        <p data-i18n="feat.chat.desc">ターミナル出力をLINEのようなチャットバブルで表示。サーバーの応答が見やすく、直感的に操作できます。</p>
+        <h3 data-i18n="feat.chat.title">本格ターミナル表示</h3>
+        <p data-i18n="feat.chat.desc">SwiftTermによるVT100/xterm互換ターミナル。vim、top、htop、tmux、fzfなどフルスクリーンアプリが動作し、ANSIカラーも完全対応。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">
@@ -1095,7 +1095,7 @@ section {
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
-            <span data-i18n="pricing.free.f2">チャット風UI</span>
+            <span data-i18n="pricing.free.f2">本格ターミナル表示 (SwiftTerm)</span>
           </li>
           <li>
             <svg viewBox="0 0 18 18" fill="currentColor"><path d="M7.5 12.268l-3.384-3.384 1.06-1.06L7.5 10.146l5.324-5.324 1.06 1.06L7.5 12.268z"/></svg>
@@ -1246,7 +1246,7 @@ var i18n = {
     'chat.approve': 'Approve',
     'chat.reject': 'Reject',
     'video.title': 'Ninka in 30 Seconds',
-    'video.subtitle': 'SSH via chat, one-tap approvals.',
+    'video.subtitle': 'Real terminal control, one-tap approvals.',
     'pain.title': 'Sound familiar?',
     'pain.subtitle': 'Waiting for Claude Code approvals is more stressful than you think.',
     'pain.1': '<strong>You left Claude Code running and stepped away.</strong><br>Came back to find it stuck waiting for approval.',
@@ -1263,8 +1263,8 @@ var i18n = {
     'step.3.desc': 'Select the session running Claude Code and tap. Then just wait for the approval button.',
     'feat.title': 'Key Features',
     'feat.subtitle': 'Simple, yet everything you need.',
-    'feat.chat.title': 'Chat-style UI',
-    'feat.chat.desc': 'Terminal output displayed as chat bubbles. Server responses are easy to read and intuitive to interact with.',
+    'feat.chat.title': 'Full Terminal Emulator',
+    'feat.chat.desc': 'VT100/xterm-compatible terminal powered by SwiftTerm. Run vim, top, htop, tmux, fzf and other full-screen apps with full ANSI color support.',
     'feat.detect.title': 'Auto-detect Approval Prompts',
     'feat.detect.desc': 'Automatically detects (y/n), (Y/n), (y/n/a), Allow? and other approval prompts, then shows large approval buttons.',
     'feat.tap.title': 'One-tap Actions',
@@ -1280,7 +1280,7 @@ var i18n = {
     'pricing.free.price': '\u00a50',
     'pricing.free.desc': 'All the features you need for basic approvals',
     'pricing.free.f1': 'Connect to 1 server',
-    'pricing.free.f2': 'Chat-style UI',
+    'pricing.free.f2': 'Full terminal emulator (SwiftTerm)',
     'pricing.free.f3': 'Auto-detect approval prompts',
     'pricing.free.f4': 'One-tap approval',
     'pricing.free.f5': 'tmux session support',
@@ -1316,11 +1316,11 @@ var i18n = {
   _meta: {
     en: {
       title: 'Ninka - Approve Claude Code from your couch.',
-      description: 'Tailscale \u00d7 iPhone: One tap to clear AI agent approval queues. A chat-style SSH client for Claude Code.'
+      description: 'Tailscale \u00d7 iPhone: One tap to clear AI agent approval queues. A full-featured terminal SSH client for iPhone, powered by SwiftTerm.'
     },
     ja: {
       title: 'Ninka - \u30bd\u30d5\u30a1\u304b\u3089\u3001Claude Code\u3092\u627f\u8a8d\u3002',
-      description: 'Tailscale \u00d7 iPhone \u3067\u3001AI\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306e\u627f\u8a8d\u5f85\u3061\u3092\u30ef\u30f3\u30bf\u30c3\u30d7\u89e3\u6d88\u3002Claude Code\u5bfe\u5fdc\u306e\u30c1\u30e3\u30c3\u30c8\u98a8SSH\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3002'
+      description: 'Tailscale \u00d7 iPhone \u3067\u3001AI\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306e\u627f\u8a8d\u5f85\u3061\u3092\u30ef\u30f3\u30bf\u30c3\u30d7\u89e3\u6d88\u3002SwiftTerm\u306b\u3088\u308b\u672c\u683c\u30bf\u30fc\u30df\u30ca\u30eb\u642d\u8f09\u306eiPhone SSH\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3002'
     }
   }
 };
