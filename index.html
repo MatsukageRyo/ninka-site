@@ -942,7 +942,7 @@ section {
     <h2 class="section-title" data-i18n="video.title">30秒でわかるNinka</h2>
     <p class="section-subtitle" data-i18n="video.subtitle">チャット感覚でSSH操作、ワンタップで承認。</p>
     <div class="video-wrapper">
-      <video id="promo-video" src="assets/promo-ja.mp4?v=2" autoplay muted loop playsinline></video>
+      <video id="promo-video" src="assets/promo-ja.mp4?v=3" autoplay muted loop playsinline></video>
     </div>
   </div>
 </section>
@@ -1354,7 +1354,7 @@ function setLang(lang) {
   document.getElementById('lang-ja').classList.toggle('active', lang === 'ja');
   document.getElementById('lang-en').classList.toggle('active', lang === 'en');
   var vid = document.getElementById('promo-video');
-  if (vid) { vid.src = (lang === 'en' ? 'assets/promo-en.mp4' : 'assets/promo-ja.mp4') + '?v=2'; vid.load(); }
+  if (vid) { vid.src = (lang === 'en' ? 'assets/promo-en.mp4' : 'assets/promo-ja.mp4') + '?v=3'; vid.load(); }
   try { localStorage.setItem('ninka-lang', lang); } catch(e) {}
 }
 
