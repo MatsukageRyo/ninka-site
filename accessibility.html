@@ -33,13 +33,14 @@
 
     <div class="panel">
       <h2>Current status</h2>
+      <p>This page is informational and is not a claim that any App Store Accessibility Nutrition Label has already been verified. Final App Store accessibility responses will be based on real-device TestFlight QA.</p>
       <p>Kagi is designed to work with iOS accessibility features where practical, including labelled app controls, system text settings, and standard iOS settings screens.</p>
       <p>The terminal area displays remote shell output. Some command-line programs running on a server may not expose semantic information in the same way as native iOS controls.</p>
     </div>
 
-    <h2>Supported areas</h2>
+    <h2>Accessibility-related areas</h2>
     <ul>
-      <li>iPhone app navigation, connection list, settings, support, privacy, and terms screens use native iOS-style controls.</li>
+      <li>iPhone app navigation, connection list, settings, support, privacy, and terms screens use native iOS-style controls where practical.</li>
       <li>Kagi has no audio or video content in version 1.0, so captions and audio descriptions are not applicable.</li>
       <li>Critical credentials are stored locally in iOS Keychain, and Kagi does not require account registration.</li>
     </ul>
@@ -50,6 +51,12 @@
       <li>Some full-screen terminal programs may be difficult to use with assistive technologies because they are text-terminal applications rather than native iOS interfaces.</li>
       <li>Color may be used for connection status, but Kagi also provides text labels and status context where possible.</li>
     </ul>
+
+    <h2>Before App Store accessibility labels</h2>
+    <p>Before any Accessibility Nutrition Label response is submitted in App Store Connect, Kagi should be checked on a real iPhone using the final TestFlight build for common tasks such as adding a connection, starting an SSH session, switching sessions, using Kagi Pro purchase and restore flows, opening settings, and reviewing support and legal links.</p>
+
+    <h2>日本語</h2>
+    <p>このページはKagiのアクセシビリティに関する情報提供であり、App StoreのAccessibility Nutrition Labelがすでに検証済みであることを示すものではありません。最終的なApp Store Connectの回答は、最終TestFlightビルドを実機iPhoneで確認した結果に基づいて入力します。</p>
 
     <h2>Contact</h2>
     <p>If you find an accessibility issue in Kagi, contact <a href="mailto:matsukage.ryo@japan-itech.com">matsukage.ryo@japan-itech.com</a>. Japanese support is available.</p>
